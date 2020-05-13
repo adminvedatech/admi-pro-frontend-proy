@@ -1,0 +1,53 @@
+<div class="container">
+
+  <p>supplier-list works!</p>
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">COMPAÑIA</th>
+      <th scope="col">RFC</th>
+      <th scope="col">DIRECCION</th>
+      <th scope="col">CREDITO</th>
+      <th scope="col">BALANCE</th>
+      <th scope="col">IVA</th>
+      <th scope="col">ACTIVO</th>
+      <th scope="col">OPCIONES</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let supplier of suppliers">
+      <th scope="row">{{supplier.id}}</th>
+      <td>{{supplier.company}}</td>
+      <td>{{supplier.supplierRfc}}</td>
+      <td>{{supplier.address}}</td>
+      <td>{{supplier.creditDays}}</td>
+      <td>{{supplier.balance |currency}}</td>
+      <td>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="customCheck" [ngModel]="supplier.isTax" name="istax">
+          <label class="custom-control-label" for="customCheck">Tasa 16%</label>
+        </div>
+        <!-- <input type="checkbox" class="form-check-input" [ngModel]="supplier.isTax"> -->
+
+      </td>
+      <td>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="isactive" [ngModel]="supplier.isActive" name="active">
+          <label class="custom-control-label" for="isactive"></label>
+        </div>
+        <!-- <input type="checkbox" class="form-check-input" [ngModel]="supplier.isTax"> -->
+
+      </td>
+      <td>
+        <button class="btn btn-primary" [routerLink]="['/supplier', supplier.id]">update</button>
+      </td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+</div>

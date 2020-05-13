@@ -1,0 +1,264 @@
+
+<div class="container">
+  <h1>Forma para agregar una Produccion</h1>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6">
+
+        <label for="product">Selecccione el producto a Producir</label>
+
+      <div formGroupName="productName">
+        <select
+        class="form-control"
+        id="productName"
+        formControlName="id"
+        placeholder="Seleccionar Producto"
+        name="productName"
+        (click)="selectCode($event)"
+        >
+        <option>Default select</option>
+        <option *ngFor="let product of products" [value]="product.id">{{
+          product.productName
+        }}</option>
+      </select>
+      <small id="valid1" *ngIf="!form.controls['productName'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+    <div class="form-group">
+      <label for="code">Codigo del Producto</label>
+      <input
+        type="text"
+        formControlName="code"
+        class="form-control"
+        id="code"
+        readonly
+        aria-describedby="emailHelp"
+        placeholder="Codigo del Producto"
+      />
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="lote">Lote de Produccion</label>
+      <input
+        type="text"
+        formControlName="batch"
+        class="form-control"
+        id="lote"
+        aria-describedby="emailHelp"
+        placeholder="Lote de Produccion"
+      />
+      <small id="valid2" *ngIf="!form.controls['batch'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="form-group">
+      <label for="date">Fecha</label>
+      <input
+      type="date"
+      formControlName="initialDate"
+      class="form-control"
+      id="initialDate"
+      aria-describedby="emailHelp"
+      placeholder="Fecha de Produccion"
+      />
+      <small id="valid3" *ngIf="!form.controls['initialDate'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+    <div class="form-group">
+      <label for="datefinal">Fecha Final</label>
+      <input
+        type="date"
+        formControlName="finalDate"
+        class="form-control"
+        id="finalDate"
+        aria-describedby="emailHelp"
+        placeholder="Fecha final de Produccion"
+        />
+        <small id="valid4" *ngIf="!form.controls['finalDate'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+    </div>
+  </div>
+
+
+    <div class="row">
+
+      <div class="col-md-2">
+        <label for="lote">Cantidad a Producir</label>
+        <input
+          type="text"
+          formControlName="quantity"
+          class="form-control"
+          id="quantity"
+          aria-describedby="emailHelp"
+          placeholder="Cantidad a producir"
+          (keyup)="recalculateCost()"
+        />
+        <small id="valid5" *ngIf="!form.controls['quantity'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+
+      <div class="col-md-2">
+      <label for="costo">Costo Unitario</label>
+        <input  type="number"
+        readonly
+        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+        formControlName="cost"
+        class="form-control"
+        step="0.01"
+        id="costo" placeholder="Costo Unitario">
+      </div>
+
+      <div class="col-md-2">
+      <label for="costototal">Costo Total</label>
+        <input type="number"
+        readonly
+        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+        formControlName="totalCost"
+        step="0.01"
+        class="form-control"
+        id="totalCost" placeholder="Costo Total">
+      </div>
+
+      <div class="col-md-6">
+        <label for="observ">Observaciones</label>
+        <input
+          type="text"
+          formControlName="observation"
+          class="form-control"
+          id="obsev"
+          aria-describedby="emailHelp"
+          placeholder="Observaciones"
+        />
+
+      </div>
+    </div>
+
+    <button class="btn btn-primary" (click)="addMaterials()">
+      Agregar Materiales
+    </button>
+    <hr />
+
+    <!-- SE AGREGAN LOS MATERIALES PARA LA PRODUCCION -->
+
+    <div formArrayName="rawMaterials" class="container">
+      <div *ngFor="let material of materials.controls; let i = index">
+        <div [formGroupName]="i">
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <!-- <label for="exampleInputEmail1">Cantidad a Producir</label> -->
+                <input
+                  type="text"
+                  formControlName="quantity"
+                  class="form-control"
+                  id="quantity2"
+                  aria-describedby="emailHelp"
+                  placeholder="Cantidad a producir"
+                  (keyup)="inputChange($event, i)"
+                />
+                <small id="quantity2" class="form-text text-muted">Cantidad Utilizada.</small>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <select
+                  class="form-control"
+                  formControlName="rawmaterial"
+                  placeholder="Seleccionar Producto"
+                  name="nameProduct"
+                  (click)="selectedItem($event, products, i)"
+                >
+
+                  <option
+
+                    *ngFor="let product of products"
+                    [value]="product.productName"
+
+                    >{{ product.productName }}
+                    </option
+                  >
+                </select>
+                <small id="prodselect" class="form-text text-muted">Producto.</small>
+
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <!-- <label for="exampleInputEmail1">Costo Unitario</label> -->
+                <input
+                  type="text"
+                  formControlName="codeProduct"
+                  class="form-control"
+                  id="codeProduct"
+                  aria-describedby="emailHelp"
+                  placeholder="Codigo de Producto"
+                  readonly
+                />
+                <small id="namecode" class="form-text text-muted">Codigo del Producto.</small
+                >
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <!-- <label for="exampleInputEmail1">Costo Unitario</label> -->
+                <input
+                  type="text"
+                  formControlName="unitCost"
+                  class="form-control"
+                  id="unitCost"
+                  aria-describedby="emailHelp"
+                  placeholder="Cantidad a producir"
+                  readonly
+                />
+                <small id="namecostunit" class="form-text text-muted">Costo Unitario.</small>
+
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <!-- <label for="exampleInputEmail1">Total</label> -->
+                <input
+                  type="number"
+                  formControlName="total"
+                  class="form-control"
+                  id="total"
+                  aria-describedby="emailHelp"
+                  placeholder="Total"
+                  readonly
+                />
+                <small id="total1" class="form-text text-muted"
+                  >Total en pesos del material utilizado.</small
+                >
+              </div>
+            </div>
+            <div class="col">
+              <button class="btn btn-danger">
+                <i class="fa fa-times" aria-hidden="true"  (click)="removeMaterials(i)"> borrar</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="!form.valid" type="submit" (click)="onSubmit()">
+      AGREGAR PRODUCCION
+      <!-- <mat-icon matSuffix>local_atm</mat-icon> -->
+    </button>
+  </form>
+  <hr>
+  <small>Esta forma es solamente para dar de alta la produccion, no es una requisicion de Produccion</small>
+</div>

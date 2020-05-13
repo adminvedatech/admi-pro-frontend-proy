@@ -1,0 +1,49 @@
+<div class="container">
+<h2>Alta de Factura de Venta</h2>
+  <div class="input-group mb-3">
+      <div class="custom-file" (change)="onFileSelected($event)">
+          <input type="file" class="custom-file-input" id="inputGroupFile02">
+          <label class="custom-file-label" for="inputGroupFile02">{{name}}</label>
+      </div>
+      <div class="input-group-append">
+          <button class="btn btn-primary" (click)="onUploadTxtFile()">Enviar</button>
+          <button class="btn btn-warning" (click)="cancelFile()">Cancel</button>
+      </div>
+  </div>
+  <small id="emailHelp" class="form-text text-muted">Seleccione un archivo Factura de Venta en formato XML de  para ser enviada.</small>
+
+  <div *ngIf="currentFileUpload" class="progress">
+      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+          {{progress.percentage}}%</div>
+      <!-- <mat-progress-bar mode="determinate" value="{{progress.percentage}}"></mat-progress-bar> -->
+  </div>
+
+</div>
+
+<div class="container">
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Archivo</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Fecha de Pago</th>
+      <th scope="col">Folio</th>
+      <th scope="col">Total</th>
+      <th scope="col">Pagada</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let invoice of invoices">
+      <th scope="row">{{invoice.nombreArchivo}}</th>
+      <td>{{invoice.fecha | date}}</td>
+      <td>{{invoice.fechaPago | date}}</td>
+      <td>{{invoice.folio}}</td>
+      <td>{{invoice.total | currency}}</td>
+      <td>{{invoice.payment}}</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>

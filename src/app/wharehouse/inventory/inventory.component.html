@@ -1,0 +1,35 @@
+
+<div class="container">
+  <h1>Inventarios de Almacen </h1>
+
+  <table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Codigo</th>
+        <th scope="col">Producto</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Costo Unitario</th>
+        <th scope="col">Total</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inventary of inventaries">
+        <th scope="row">1</th>
+        <td>{{inventary.code}}</td>
+        <td>{{inventary.product}}</td>
+        <td>{{inventary.quantity}}</td>
+        <td>{{inventary.unitCost | currency}}</td>
+        <td>{{inventary.totalCost|currency}}</td>
+      </tr>
+
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

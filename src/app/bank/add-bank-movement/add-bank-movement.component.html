@@ -1,0 +1,229 @@
+
+<div class="container">
+  <h1>Agregar movimiento Bancario</h1>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6">
+
+        <label for="product">Selecccione la Cuenta Bancaria</label>
+
+      <div formGroupName="bank">
+        <select
+        class="form-control"
+        id="productName"
+        formControlName="id"
+        placeholder="Seleccionar Producto"
+        name="productName"
+
+        >
+        <option>Default select</option>
+        <option *ngFor="let bank of subAccounts" [value]="bank.id">{{
+          bank.nameSubAccount
+        }}</option>
+      </select>
+
+       <!-- <small id="valid1" *ngIf="!form.controls['bank'].valid" class="text-danger">*Este campo es requerido.</small> -->
+
+    </div>
+
+    <div class="form-group">
+      <label for="code">Referencia</label>
+      <input
+        type="text"
+        formControlName="reference"
+        class="form-control"
+        id="reference"
+        aria-describedby="emailHelp"
+        placeholder="Referencia"
+      />
+      <small id="valid1" *ngIf="!form.controls['reference'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="lote">Pagar A</label>
+      <input
+        type="text"
+        formControlName="paymentTo"
+        class="form-control"
+        id="lote"
+        aria-describedby="emailHelp"
+        placeholder="Pagar a"
+      />
+      <small id="valid2" *ngIf="!form.controls['paymentTo'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="form-group">
+      <label for="date">Fecha de Operacion</label>
+      <input
+      type="date"
+      formControlName="dateOperation"
+      class="form-control"
+      id="dateOperation"
+      aria-describedby="emailHelp"
+      placeholder="Fecha de Produccion"
+      />
+      <small id="valid3" *ngIf="!form.controls['dateOperation'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+    <div class="form-group">
+      <label for="datefinal">Fecha</label>
+      <input
+        type="date"
+        formControlName="date"
+        class="form-control"
+        id="date"
+        aria-describedby="emailHelp"
+        placeholder="Fecha "
+        />
+        <small id="valid4" *ngIf="!form.controls['date'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio1" name="customRadio" [(ngModel)]="entrada" (click)="onEntrada()"  class="custom-control-input">
+        <label class="custom-control-label"  for="customRadio1">Agregar como Deposito</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio2" [(ngModel)]="entrada" checked="true" (click)="onSalida()" name="customRadio" class="custom-control-input">
+        <label class="custom-control-label" for="customRadio2">Agregar como Cheque</label>
+      </div>
+  <small>Seleccione el tipo de movimiento Bancario</small>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+
+      <div class="col-md-3">
+        <label for="lote">Cantidad</label>
+        <input
+          type="number"
+        formControlName="cantidad"
+          class="form-control"
+          id="deposit"
+          aria-describedby="emailHelp"
+          placeholder="Cantidad de Transaccion"
+          (keyup)="recalculateCost()"
+        />
+        <small id="valid5" *ngIf="!form.controls['deposit'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+      <div class="col-md-6">
+        <label for="observ">Observaciones</label>
+        <input
+          type="text"
+          formControlName="details"
+          class="form-control"
+          id="details"
+          aria-describedby="emailHelp"
+          placeholder="Detalles"
+        />
+
+      </div>
+    </div>
+
+    <button class="btn btn-primary" (click)="addMaterials()">
+      Agregar Poliza
+    </button>
+    <hr />
+
+    <!-- SE AGREGAN LOS MATERIALES PARA LA PRODUCCION -->
+
+    <div formArrayName="poliza" class="container">
+      <div *ngFor="let material of materials.controls; let i = index">
+        <div [formGroupName]="i">
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <select
+                  class="form-control"
+                  formControlName="subAccountNumber"
+                  placeholder="Seleccionar Cuenta"
+                  name="nameProduct"
+                  (click)="selectedItem($event, i)">
+                  <option *ngFor="let subacc of subAccounts"
+                    [value]="subacc.subAccountNumber"
+                    >{{ subacc.subAccountNumber}} : {{subacc.nameSubAccount}}
+                    </option>
+                </select>
+                <small id="prodselect" class="form-text text-muted">llene el campo.</small>
+
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <!-- <label for="exampleInputEmail1">Costo Unitario</label> -->
+                <input
+                  type="number"
+                  formControlName="debit"
+                  class="form-control"
+                  id="codeProduct"
+                  aria-describedby="emailHelp"
+                  placeholder="Debito"
+                  (keyup)="enterValues(i)"
+                />
+                <small id="namecode" class="form-text text-muted">Debito</small
+                >
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <!-- <label for="exampleInputEmail1">Costo Unitario</label> -->
+                <input
+                  type="number"
+                  formControlName="credit"
+                  class="form-control"
+                  id="unitCost"
+                  aria-describedby="emailHelp"
+                  placeholder="Credito"
+                  (keyup)="enterValuesCredit(i)"
+                />
+                <small id="namecostunit" class="form-text text-muted">Credito.</small>
+
+              </div>
+
+            </div>
+             <div class="col-md-1">
+              <button class="btn btn-danger">
+                <i class="fa fa-times" aria-hidden="true"  (click)="removeMaterials(i)"> borrar</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+
+      <div class="col-md-4"></div>
+      <div class="col-md-2 btn btn-outline-primary">{{sumDebit|currency}}</div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-2 btn btn-lg btn-outline-primary">{{sumCredit|currency}}</div>
+      <div class="col-md-1">
+      </div>
+    </div>
+
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" type="submit" (click)="onSubmit()">
+      AGREGAR PRODUCCION
+      <!-- <mat-icon matSuffix>local_atm</mat-icon> -->
+    </button>
+  </form>
+  <hr>
+  <small>Esta forma es solamente para dar de alta la produccion, no es una requisicion de Produccion</small>
+</div>

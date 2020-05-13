@@ -1,0 +1,57 @@
+<div class="container">
+  <h1>Alta de Cuenta Bancaria</h1>
+
+  <hr>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+
+      <!-- Nombre del Banco -->
+      <div class="form-group col-md-4">
+        <label for="inputEmail4">Nombre del Banco</label>
+        <input type="text" formControlName="bankName" class="form-control" id="inputEmail4" placeholder="Nombre del Banco">
+        <small id="nameBank" *ngIf="!form.controls['bankName'].valid" class="text-danger">*Este campo es requerido.</small>
+      </div>
+
+      <!-- Numero de la Cuenta -->
+      <div class="form-group col-md-4">
+        <label for="inputPassword4">Numero de Cuenta</label>
+        <input type="text" formControlName="bankAccount" class="form-control" id="inputPassword4" placeholder="Numero de la Cuenta">
+        <small id="supplierRfc" *ngIf="!form.controls['bankAccount'].valid" class="text-danger">*Este campo es requerido.</small>
+      </div>
+
+      <!-- Selecciona el numero de la SubCuenta -->
+      <div class="col-md-4">
+      <label for="product">Selecccione la Cuenta Bancaria</label>
+      <div formGroupName="bank">
+        <select class="form-control"
+        id="productName"
+        formControlName="id"
+        placeholder="Seleccionar Producto"
+        name="productName">
+        <option>Default select</option>
+        <option *ngFor="let bank of subAccounts" [value]="bank.id">{{
+          bank.nameSubAccount
+        }}</option>
+      </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="balanceinicial">Balance Inicial</label>
+          <input type="text" formControlName="initialBalance" class="form-control" id="balanceinicial">
+          <small id="supplierRfc" *ngIf="!form.controls['initialBalance'].valid" class="text-danger">*Este campo es requerido.</small>
+
+        </div>
+          <div class="form-group col-md-6">
+            <label for="balance">Balance Actual</label>
+            <input type="text" formControlName="balance" class="form-control" id="balance">
+          </div>
+        </div>
+
+    </div>
+    </div>
+    <button type="submit" [disabled]="!form.valid" [hidden]= "bank.id != null"  class="btn btn-primary">Agregar</button>
+    <button type="submit" *ngIf = "bank.id != null" class="btn btn-warning">Actualizar</button>
+  </form>
+</div>
+

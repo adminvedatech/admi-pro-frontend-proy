@@ -1,0 +1,53 @@
+
+<div class="container">
+  <h2>Alta de Productos por Archivo CSV</h2>
+    <div class="input-group mb-3">
+        <div class="custom-file" (change)="onFileSelected($event)">
+            <input type="file" class="custom-file-input" id="inputGroupFile02">
+            <label class="custom-file-label" for="inputGroupFile02">{{name}}</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" (click)="onUploadTxtFile()">Enviar</button>
+            <button class="btn btn-warning" (click)="cancelFile()">Cancel</button>
+        </div>
+    </div>
+    <small id="emailHelp" class="form-text text-muted">Seleccione un archivo que contiene los Productos para ser dados de alta en formato CSV para ser enviada.</small>
+
+    <div *ngIf="currentFileUpload" class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+            {{progress.percentage}}%</div>
+        <!-- <mat-progress-bar mode="determinate" value="{{progress.percentage}}"></mat-progress-bar> -->
+    </div>
+
+  </div>
+
+  <div class="container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Codigo</th>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Precio Unitario</th>
+          <th scope="col">Costo Unitario</th>
+          <th scope="col">Typo</th>
+          <th scope="col">SubTipo</th>
+          <th scope="col">Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor = "let product of products">
+          <td>{{product.code}}</td>
+          <td>{{product.productName}}</td>
+          <td>{{product.unitPrice | currency}}</td>
+          <td>{{product.unitCost |currency}}</td>
+          <td>{{product.type}}</td>
+          <td>{{product.subType}}</td>
+          <td>
+            <button class="btn btn-primary" [routerLink]="['/production', product.id]">update</button>
+        </td>
+
+        </tr>
+
+      </tbody>
+    </table>
+  </div>

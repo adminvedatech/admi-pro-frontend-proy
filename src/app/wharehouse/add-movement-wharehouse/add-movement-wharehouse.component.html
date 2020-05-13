@@ -1,0 +1,145 @@
+
+<div class="container">
+  <h1>Agregar un Movimiento al Almacen de Entrada o Salida </h1>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6">
+
+        <label for="product">Selecccione el Producto</label>
+
+      <div>
+        <select
+        class="form-control"
+        id="product"
+        formControlName="description"
+        placeholder="Seleccionar Producto"
+        name="description"
+        (click)="selectCode($event)"
+        >
+        <option>Default select</option>
+        <option *ngFor="let product of products" [value]="product.productName">{{
+          product.productName
+        }}</option>
+      </select>
+      <small id="productName" *ngIf="!form.controls['description'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+    <div class="form-group">
+      <label for="code">Codigo del Producto</label>
+      <input
+        type="text"
+        formControlName="code"
+        class="form-control"
+        id="code"
+        readonly
+        aria-describedby="emailHelp"
+        placeholder="Codigo del Producto"
+      />
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="lote">Observaciones</label>
+      <input
+        type="text"
+        formControlName="batch"
+        class="form-control"
+        id="lote"
+        aria-describedby="emailHelp"
+        placeholder="Lote de Produccion"
+      />
+      <small id="productName" *ngIf="!form.controls['batch'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="form-group">
+      <label for="date">Fecha</label>
+      <input
+      type="date"
+      formControlName="fecha"
+      class="form-control"
+      id="date"
+      aria-describedby="emailHelp"
+      placeholder="Fecha de Produccion"
+      />
+      <small id="productName" *ngIf="!form.controls['fecha'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+    <div class="custom-control custom-radio">
+      <input type="radio" id="customRadio1" name="customRadio" [(ngModel)]="entrada" (click)="onEntrada()"  checked="true" class="custom-control-input">
+      <label class="custom-control-label"  for="customRadio1">Entrada de Producto</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input type="radio" id="customRadio2" [(ngModel)]="entrada" (click)="onSalida()" name="customRadio" class="custom-control-input">
+      <label class="custom-control-label" for="customRadio2">O Salida de Producto</label>
+    </div>
+<small>Seleccione si es entrada o salida de producto</small>
+    </div>
+  </div>
+
+
+    <div class="row">
+
+      <div class="col">
+        <label for="lote">Cantidad</label>
+        <input
+          type="text"
+          formControlName="quantity"
+          class="form-control"
+          id="lote"
+          aria-describedby="emailHelp"
+          placeholder="Cantidad a producir"
+          (keyup)="recalculateCost()"
+        />
+        <small id="productName" *ngIf="!form.controls['quantity'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+
+      <div class="col">
+      <label for="costo">Costo Unitario</label>
+        <input  type="number"
+        readonly
+        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+        formControlName="unitCost"
+        class="form-control"
+        step="0.01"
+        id="costo" placeholder="Costo Unitario">
+      </div>
+
+      <div class="col">
+      <label for="costototal">Costo Total</label>
+        <input type="number"
+        readonly
+        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+        formControlName="totalCost"
+        step="0.01"
+        class="form-control"
+        id="costototal" placeholder="Costo Total">
+      </div>
+
+
+    </div>
+
+     <hr />
+
+    <!-- SE AGREGAN LOS MATERIALES PARA LA PRODUCCION -->
+
+
+    <hr />
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="!form.valid" type="submit" (click)="onSubmit()">
+      AGREGAR PRODUCCION
+      <!-- <mat-icon matSuffix>local_atm</mat-icon> -->
+    </button>
+  </form>
+  <hr>
+  <small>Esta forma es solamente para dar de alta una entrada o salida de productos en el Almacen para concialiar Inventarios</small>
+</div>

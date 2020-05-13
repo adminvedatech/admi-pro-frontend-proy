@@ -1,0 +1,81 @@
+<p>add-product works!</p>
+<div class="container">
+  <h2>Alta de Archivo</h2>
+    <div class="input-group mb-3">
+        <div class="custom-file" (change)="onFileSelected($event)">
+            <input type="file" class="custom-file-input" id="inputGroupFile02">
+            <label class="custom-file-label" for="inputGroupFile02">{{name}}</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" (click)="onUploadTxtFile()">Enviar</button>
+            <button class="btn btn-warning" (click)="cancelFile()">Cancel</button>
+        </div>
+    </div>
+    <small id="emailHelp" class="form-text text-muted">Seleccione un archivo en formato CSV que contenga los productos de  para ser enviada.</small>
+
+    <div *ngIf="currentFileUpload" class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+            {{progress.percentage}}%</div>
+        <!-- <mat-progress-bar mode="determinate" value="{{progress.percentage}}"></mat-progress-bar> -->
+    </div>
+
+  </div>
+
+  <hr>
+
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <h2>Forma para dar de alta un Producto</h2>
+    <div class="col-md-8">
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Codigo</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="code" class="form-control" id="inputPassword" placeholder="Codigo del Producto">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Descripcion</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="productName" class="form-control" id="inputPassword" placeholder="Descripcion del Producto">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Precio Unitario</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="unitPrice" class="form-control" id="inputPassword" placeholder="Precio Unitario de Venta">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Costo Unitario</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="unitCost" class="form-control" id="inputPassword" placeholder="Costo directo del Producto">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Tipo</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="type" class="form-control" id="inputPassword" placeholder="Clasificacion por Tipo">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Subtipo</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="subType" class="form-control" id="inputPassword" placeholder="Clasificacion por Subtipo">
+          </div>
+        </div>
+        <button type="submit" [disabled]="!form.valid" [hidden]= "product.id != null"  class="btn btn-primary">Agregar</button>
+        <button type="submit" *ngIf = "product.id != null" class="btn btn-warning">Actualizar</button>
+      </form>
+    </div>
+    </div>
+  </div>
+
+  <hr>
+  <label>Esta forma puede modificar cada producto, vaya a la lista de productos pare ello</label>

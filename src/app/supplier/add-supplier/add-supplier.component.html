@@ -1,0 +1,93 @@
+
+<div class="container">
+  <h1>Agregar Proveedor</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- Seleccione la SubCuenta -->
+    <div class="form-group col-md-8">
+      <label for="subAccount">Selecccione una Subcuenta</label>
+      <select
+      class="form-control"
+      id="subAccount"
+      formControlName="subAccount"
+      placeholder="Seleccionar Producto"
+      (click)="addInitialBalance($event)"
+      name="subAccount">
+      <option>Default select</option>
+      <option *ngFor="let acc of subAccounts" [value]="acc.subAccountNumber">
+        {{acc.nameSubAccount + ": "+ acc.subAccountNumber}}</option>
+    </select>
+  </div>
+
+
+    <!-- Nombre del Banco -->
+    <div class="form-group col-md-8">
+      <label for="bankName">Nombre del Proveedor</label>
+      <input type="text" class="form-control" formControlName="company" placeholder="Nombre del Banco" id="bankName">
+    </div>
+
+    <!-- Numero de la Cuenta -->
+    <div class="form-group col-md-8">
+      <label for="bankAccount">RFC del Proveedor</label>
+      <input type="text" class="form-control" formControlName="supplierRfc" placeholder="Numero de la Cuenta del Banco" id="supplierRfc">
+    </div>
+
+
+    <div class="form-group col-md-4">
+      <label for="creditDays">Dias de Credito</label>
+      <input type="text" class="form-control" formControlName="creditDays" placeholder="dias de Credito" id="creditDays">
+
+
+    </div>
+
+    <div class="form-group col-md-8">
+      <label for="address">Direccion</label>
+      <input type="text" class="form-control" formControlName="address" placeholder="Direccion" id="address">
+    </div>
+
+      <!-- Balance Inicial -->
+      <div class="form-group col-md-8">
+        <label for="initialBalance">Balance Inicial de la Cuenta Bancaria </label>
+        <input type="text" class="form-control" formControlName="initialBalance" placeholder="Balance Inicial de la Cuenta Bancaria" id="initialBalance">
+      </div>
+
+    <!-- Balance  -->
+    <div class="form-group col-md-8">
+      <label for="balance">Balance </label>
+      <input type="text" readonly class="form-control" formControlName="balance" placeholder="Balance" id="balance">
+    </div>
+
+    <div class="row">
+    <div class="form-group col-md-4">
+       <div class="custom-control custom-checkbox col-md-4">
+          <input type="checkbox" formControlName="isTax" class="custom-control-input" id="customCheck" name="example1">
+          <label class="custom-control-label" for="customCheck">Tasa 16%</label>
+
+        </div>
+
+        <div class="custom-control custom-checkbox col-md-4">
+          <input type="checkbox" formControlName="isActive" class="custom-control-input" id="active" name="example1">
+          <label class="custom-control-label" for="active">Activo</label>
+        </div>
+
+      </div>
+
+      <div class="form-group col-md-4">
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio1" formControlName="type" name="customRadio"  value="supply" class="custom-control-input">
+          <label class="custom-control-label"  for="customRadio1">Proveedor de Materias Primas</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio2" formControlName="type" name="customRadio"value="service" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio2">Servicios</label>
+        </div>
+    </div>
+
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+
+
+  </form>

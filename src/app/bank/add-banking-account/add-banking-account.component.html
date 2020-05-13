@@ -1,0 +1,51 @@
+<div class="container">
+  <h1>Agregar movimiento Bancario</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- Seleccione la SubCuenta -->
+    <div class="form-group col-md-6">
+      <label for="subAccount">Selecccione la Cuenta Bancaria</label>
+      <select
+      class="form-control"
+      id="subAccount"
+      formControlName="subAccount"
+      placeholder="Seleccionar Producto"
+      (click)="addInitialBalance($event)"
+      name="subAccount">
+      <option>Default select</option>
+      <option *ngFor="let acc of subAccounts" [value]="acc.subAccountNumber">
+        {{acc.nameSubAccount + ": "+ acc.subAccountNumber}}</option>
+    </select>
+  </div>
+
+
+    <!-- Nombre del Banco -->
+    <div class="form-group col-md-6">
+      <label for="bankName">Nombre del Banco</label>
+      <input type="text" class="form-control" formControlName="bankName" placeholder="Nombre del Banco" id="bankName">
+    </div>
+
+    <!-- Numero de la Cuenta -->
+    <div class="form-group col-md-6">
+      <label for="bankAccount">Numero de la Cuenta del Banco</label>
+      <input type="text" class="form-control" formControlName="bankAccount" placeholder="Numero de la Cuenta del Banco" id="bankAccount">
+    </div>
+
+      <!-- Balance Inicial -->
+      <div class="form-group col-md-6">
+        <label for="initialBalance">Balance Inicial de la Cuenta Bancaria </label>
+        <input type="text" class="form-control" formControlName="initialBalance" placeholder="Balance Inicial de la Cuenta Bancaria" id="initialBalance">
+      </div>
+
+    <!-- Balance  -->
+    <div class="form-group col-md-6">
+      <label for="balance">Balance </label>
+      <input type="text" readonly class="form-control" formControlName="balance" placeholder="Balance" id="balance">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+
+
+  </form>

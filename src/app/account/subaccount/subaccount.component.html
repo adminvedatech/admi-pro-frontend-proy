@@ -1,0 +1,57 @@
+<div class="container">
+  <hr>
+  <h2>Agregar una SubCuenta de Contabilidad</h2>
+
+  <!-- <h2  *ngIf="subaccount.id !== null" >Editar Cuenta Bancaria</h2> -->
+
+<hr>
+  <form [formGroup] = "form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+          <input type="text"  readonly class="form-control" formControlName="id" id="id" aria-describedby="emailHelp" placeholder="ID">
+      </div>
+
+       <div class="form-group" formGroupName="accountType">
+        <label for="inputState">Seleccione una Cuenta</label>
+        <select id="inputState" class="form-control" formControlName="id">
+            <option>Choose oppo suit</option>
+            <option *ngFor="let suit of accounts" [ngValue]="suit.id">{{suit.name+ ": " + (suit.account)}}</option>
+        </select>
+        <small id="inputState" *ngIf="!form.controls['accountType'].valid" class="text-danger">*Este campo es requerido.</small>
+    </div>
+
+      <div class="form-group">
+          <input type="text" class="form-control" formControlName="nameAccount" id="nameAccount" placeholder="Nombre de Subcuenta">
+              <small id="nameAccount" *ngIf="!form.controls['nameAccount'].valid" class="text-danger">*Este campo es requerido.</small>
+      </div>
+
+      <div class="form-group">
+          <input type="text" class="form-control" formControlName="accountNumber"  mask="000-00-00" id="accountNumber" placeholder="Numero de Cuenta es requerido">
+          <small id="accountNumber" *ngIf="!form.controls['accountNumber'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+      <div class="form-group">
+          <input type="text" class="form-control" formControlName="balance" id="balance" placeholder="Balance Inicial es requerido">
+          <small id="balance" *ngIf="!form.controls['balance'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+      <div class="form-group">
+          <input type="text" readonly class="form-control" formControlName="status" id="status" placeholder="Estado">
+      </div>
+
+      <!-- <button type="submit"  class="btn btn-primary">Submit</button> -->
+      <!-- <button type="submit"  *ngIf="subaccount.id !== null" class="d-inline btn btn-warning">Actualizar</button> -->
+      <!-- <button (click)="cleanForm()"  class="d-inline btn btn-warning">Cancelar</button> -->
+
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" (click)="onSubmit()" name="options" id="option1" autocomplete="off" checked> Enviar
+        </label>
+
+        <label class="btn btn-warning active">
+          <input type="radio" name="options" (click)="cleanForm()" id="option3" autocomplete="off"> Cancelar
+        </label>
+      </div>
+  </form>
+</div>

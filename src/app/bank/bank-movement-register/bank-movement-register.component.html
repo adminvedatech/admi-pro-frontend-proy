@@ -1,0 +1,57 @@
+<p>bank-movement-register works!</p>
+
+<div class="container">
+
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Cuenta</th>
+        <th scope="col">Fecha Operacion</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Referencia</th>
+        <th scope="col">Depositos</th>
+        <th scope="col">Retiros</th>
+        <th scope="col">Saldo</th>
+        <th scope="col">Descripcion Detallada</th>
+        <th scope="col">Poliza</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of movements; let i = index">
+        <th class="small-text">{{account.id}}</th>
+        <td class="small-text">{{account.cuenta}}</td>
+        <td class="small-text">{{account.fechaOperacion}}</td>
+        <td class="small-text">{{account.fecha}}</td>
+        <td class="small-text">{{account.referencia}}</td>
+        <td class="small-text">{{account.depositos|currency}}</td>
+        <td class="small-text">{{account.retiros|currency}}</td>
+        <td class="small-text">{{account.saldo|currency}}</td>
+        <td class="small-text">{{account.descripcionDetallada}}</td>
+        <td class="small-text">
+          <div class="custom-control custom-checkbox">
+            <a [routerLink]="['/account/add-accounting-policy', account.id, 'br']">{{account.id}}</a>
+          </div>
+        </td>
+
+        <td>
+
+        <td>
+          <button type="button" [routerLink]="['/bank/edit-bank-movement-register', account.id]" class="btn btn-primary btn-sm">
+            editar</button>
+        </td>
+
+
+        <td>
+          <div class="custom-control custom-checkbox my-1 mr-sm-2">
+            <!-- <input type="checkbox" value="{{invoice.payment}}" [checked] = "invoice.payment" (change)="onChange(invoice.id, $event.target.checked)" class="custom-control-input" id="{{invoice.id}}"> -->
+            <!-- <label class="custom-control-label" for="{{invoice.id}}"></label> -->
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+

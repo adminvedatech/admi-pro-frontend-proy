@@ -1,0 +1,60 @@
+<div class="container">
+  <hr>
+  <h1>Cuentas Contables</h1>
+<hr>
+  <div class="input-group mb-3">
+    <div class="custom-file" (change)="onFileSelected($event)">
+      <input type="file" class="custom-file-input" id="inputGroupFile02">
+      <label class="custom-file-label" for="inputGroupFile02">{{name}}</label>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-primary" (click)="onUploadTxtFile()">Enviar</button>
+      <button class="btn btn-warning"  (click)="cancelFile()">Cancel</button>
+    </div>
+  </div>
+  <small id="emailHelp" class="form-text text-muted">Seleccione un archivo Factura de Venta en formato XML de  para ser enviada.</small>
+  
+  <div *ngIf="currentFileUpload" class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+      {{progress.percentage}}%</div>
+      <!-- <mat-progress-bar mode="determinate" value="{{progress.percentage}}"></mat-progress-bar> -->
+    </div>
+    
+  </div>
+
+
+  <div class="container">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th class="small-text" scope="col">Nombre</th>
+          <th scope="col">Cuenta</th>
+          <th scope="col">Balance</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of accountsType">
+          <th class="small-text">{{account.id}}</th>
+          <td class="small-text">{{account.name}}</td>
+          <td class="small-text">{{account.account}}</td>
+          <td class="small-text">{{account.balance | currency}}</td>
+          <td class="small-text">{{account.state}}</td>
+          <td><i class="fas fa-plus"></i></td>
+          <td><button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-plus"></i>poliza</button>
+          </td>
+         
+
+          <td>
+            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+              <!-- <input type="checkbox" value="{{invoice.payment}}" [checked] = "invoice.payment" (change)="onChange(invoice.id, $event.target.checked)" class="custom-control-input" id="{{invoice.id}}"> -->
+              <!-- <label class="custom-control-label" for="{{invoice.id}}"></label> -->
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>

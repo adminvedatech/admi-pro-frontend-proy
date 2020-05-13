@@ -1,0 +1,37 @@
+
+<div class="container">
+  <h1>Movimientos de Almacen </h1>
+
+  <table class="table table-hover table-striped table-dark">
+    <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Batch</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Codigo</th>
+      <th scope="col">Producto</th>
+      <th scope="col">Entradas</th>
+      <th scope="col">Salidas</th>
+      <th scope="col">Costo</th>
+      <th scope="col">Costo Total</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let movement of movements">
+      <th scope="row">{{movement.id}}</th>
+      <td>{{movement.batch}}</td>
+      <td>{{movement.fecha}}</td>
+      <td>{{movement.code}}</td>
+      <td>{{movement.description}}</td>
+      <td>{{movement.entrance}}</td>
+      <td>{{movement.issues}}</td>
+      <td>{{movement.unitCost |currency}}</td>
+      <td>{{movement.totalCost | currency}}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+</div>

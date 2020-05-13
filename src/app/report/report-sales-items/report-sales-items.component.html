@@ -1,0 +1,84 @@
+
+<div class="container">
+
+  <h2>Ventas por piezas</h2>
+<hr>
+<h4>Ventas de Enero</h4>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Clave Producto</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">P.U.</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Total</th>
+      <th scope="col">Ptje</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sale of salesByItems">
+      <th >1</th>
+      <td>{{sale.claveUnidad}}</td>
+      <td>{{sale.descripcion}}</td>
+      <td *ngIf="sale.valorUnitario else 0">{{sale.valorUnitario | currency}}</td>
+      <td>{{sale.cantidad}}</td>
+      <td>{{sale.importe | currency}}</td>
+      <td>{{sale.importe/Total | percent}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Total de Piezas | Precio Unitario Promedio | Total de Venta</td>
+      <td><h6>{{precioPr | currency}}</h6></td>
+      <td><h6>{{TtlCant}}</h6></td>
+      <td><h6>{{Total | currency}}</h6></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<div class="container">
+  <hr>
+
+  <h4>Ventas de Febrero</h4>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Clave Producto</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">P.U.</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Total</th>
+      <th scope="col">Ptje</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sale of salesByItemsFeb">
+      <th >1</th>
+      <td>{{sale.claveUnidad}}</td>
+      <td>{{sale.descripcion}}</td>
+      <td>{{sale.valorUnitario | currency}}</td>
+      <td>{{sale.cantidad}}</td>
+      <td>{{sale.importe | currency}}</td>
+      <td>{{sale.importe/TotalFeb | percent}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Total de Piezas | Precio Unitario Promedio | Total de Venta</td>
+      <td><h6>{{precioPrFeb | currency}}</h6></td>
+      <td><h6>{{TtlCantFeb}}</h6></td>
+      <td><h6>{{TotalFeb | currency}}</h6></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+

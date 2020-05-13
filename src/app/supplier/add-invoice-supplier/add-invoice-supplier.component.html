@@ -1,0 +1,288 @@
+
+<div class="container">
+  <h1>Forma para agregar una Factura de Compra</h1>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6">
+
+        <label for="product">Selecccione el Proveedor</label>
+
+      <div formGroupName="supplier">
+        <select
+        class="form-control"
+        id="supplier"
+        formControlName="id"
+        placeholder="Seleccionar Producto"
+        name="supplier"
+        (click)="selectCode($event)"
+        >
+        <option>Default select</option>
+        <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{
+          supplier.company
+        }}</option>
+      </select>
+      <small id="supplier" *ngIf="!form.controls['supplier'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+    <div class="form-group">
+      <label for="code">No de Folio</label>
+      <input
+        type="text"
+        formControlName="folio"
+        class="form-control"
+        id="folio"
+        aria-describedby="noFolio"
+        placeholder="Numero de Folio"
+      />
+
+    </div>
+
+    <div class="form-group">
+      <label for="code">Condiciones de Pago</label>
+      <input
+        type="text"
+        formControlName="condicionesPago"
+        class="form-control"
+        id="condicionesPago"
+        aria-describedby="emailHelp"
+        placeholder="Codigo del Producto"
+      />
+
+    </div>
+
+    <div class="form-group">
+      <label for="code">Conceptos</label>
+      <input
+        type="text"
+        formControlName="concept"
+        class="form-control"
+        id="condicionesPago"
+        aria-describedby="emailHelp"
+        placeholder="Codigo del Producto"
+      />
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="lote">Nombre Archivo xml</label>
+      <input
+        type="text"
+        formControlName="nombreArchivo"
+        class="form-control"
+        id="nombreArchivo"
+        aria-describedby="emailHelp"
+        placeholder="Nombre del Archivo xml"
+      />
+      <small id="productName" *ngIf="!form.controls['nombreArchivo'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="form-group">
+      <label for="date">Fecha</label>
+      <input
+      type="date"
+      formControlName="fecha"
+      class="form-control"
+      id="fecha"
+      aria-describedby="emailHelp"
+      placeholder="Fecha de Produccion"
+      />
+      <small id="fecha" *ngIf="!form.controls['fecha'].valid" class="text-danger">*Este campo es requerido.</small>
+
+    </div>
+    <div class="form-group">
+      <label for="datefinal">Fecha Pago</label>
+      <input
+        type="date"
+        formControlName="fechaPago"
+        class="form-control"
+        id="datefinal"
+        aria-describedby="emailHelp"
+        placeholder="Fecha de Pago"
+        />
+        <small id="fechaPago" *ngIf="!form.controls['fechaPago'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+    </div>
+  </div>
+
+
+    <div class="row">
+
+      <div class="col-md-2">
+        <label for="lote">SubTotal</label>
+        <input
+          type="number"
+          readonly
+          formControlName="subTotal"
+          class="form-control"
+          id="lote"
+          aria-describedby="emailHelp"
+          placeholder="Cantidad a producir"
+          (keyup)="recalculateCost()"
+        />
+        <small id="subTotal" *ngIf="!form.controls['subTotal'].valid" class="text-danger">*Este campo es requerido.</small>
+
+      </div>
+
+
+      <div class="col-md-2">
+      <label for="costo">Impuesto</label>
+        <input  type="number"
+        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+        formControlName="impuesto"
+        class="form-control"
+        (keyup)="recalculateCost()"
+        step="0.01"
+        id="costo" placeholder="Impuesto">
+      </div>
+
+
+      <div class="col-md-2">
+      <label for="costototal">Total</label>
+        <input type="number"
+        readonly
+        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+        formControlName="total"
+        step="0.01"
+        class="form-control"
+        id="total" placeholder="Total">
+      </div>
+      <div class="col-md-6">
+        <label for="observ">Pago</label>
+        <input
+          type="text"
+          formControlName="pago"
+          class="form-control"
+          id="pago"
+          aria-describedby="emailHelp"
+          placeholder="Pago"
+        />
+
+      </div>
+    </div>
+
+    <button class="btn btn-primary" (click)="addMaterials()">
+      Agregar Materiales
+    </button>
+    <hr />
+
+    <!-- SE AGREGAN LOS MATERIALES PARA LA PRODUCCION -->
+
+     <div formArrayName="invoiceItems" class="container">
+      <div *ngFor="let material of materials.controls; let i = index">
+        <div [formGroupName]="i">
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <input
+                  type="text"
+                  formControlName="cantidad"
+                  class="form-control"
+                  id="cantidad"
+                  aria-describedby="emailHelp"
+                  placeholder="Cantidad a producir"
+                  (keyup)="inputChange($event, i)"
+                />
+                <small id="cantidad" class="form-text text-muted">Cantidad.</small>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <select
+                  class="form-control"
+                  formControlName="descripcion"
+                  placeholder="Seleccionar Producto"
+                  name="descripcion"
+                  (click)="selectedItem($event, i)"
+                >
+
+                  <option
+
+                    *ngFor="let product of products"
+                    [value]="product.productName"
+
+                    >{{ product.productName }}
+                    </option
+                  >
+                </select>
+                <small id="product" class="form-text text-muted">Producto.</small>
+
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <input
+                  type="text"
+                  formControlName="claveUnidad"
+                  class="form-control"
+                  id="claveUnidad"
+                  aria-describedby="emailHelp"
+                  placeholder="Codigo de Producto"
+                  readonly
+                />
+                <small id="code" class="form-text text-muted">Codigo del Producto.</small
+                >
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <input
+                  type="text"
+                  formControlName="valorUnitario"
+                  class="form-control"
+                  id="valorUnitario"
+                  aria-describedby="emailHelp"
+                  placeholder="Precio Unitario"
+                  (keyup)="inputChange($event, i)"
+                  />
+                <small id="valorUnitario" class="form-text text-muted">Precio Unitario.</small>
+
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <input
+                  type="number"
+                  formControlName="importe"
+                  class="form-control"
+                  id="importe"
+                  aria-describedby="emailHelp"
+                  placeholder="Importe"
+                  readonly
+                />
+                <small id="importe" class="form-text text-muted"
+                  >Total en pesos del material utilizado.</small
+                >
+              </div>
+            </div>
+            <div class="col">
+              <button class="btn btn-danger">
+                <i class="fa fa-times" aria-hidden="true"  (click)="removeMaterials(i)"> borrar</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <hr />
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="!form.valid" type="submit" (click)="onSubmit()">
+      AGREGAR PRODUCCION
+      <!-- <mat-icon matSuffix>local_atm</mat-icon> -->
+    </button>
+  </form>
+  <hr>
+  <small>Esta forma es solamente para dar de alta la produccion, no es una requisicion de Produccion</small>
+</div>

@@ -1,0 +1,173 @@
+<hr />
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="polizaservice.orderForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="text-primary display-4">Poliza</h5>
+                        <p class="lead text-danger">
+                            {{this.polizaservice.message}}
+                        </p>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Tipo</label
+                >
+              </div>
+              <select
+                class="custom-select"
+                id="inputGroupSelect01"
+                formControlName="type"
+                [attr.disabled]= "true"
+              >
+                <option value="Dr">Dr</option>
+                <option value="Eg">Eg</option>
+                <option value="Ig">Ig</option>
+              </select>
+              <small
+                id="inputState"
+                *ngIf="!polizaservice.orderForm.controls['type'].valid"
+                class="text-danger"
+                >*Este campo es requerido.</small
+              >
+            </div>
+          </div>
+
+          <!-- <div class="col-2">
+            <div class="form-group">
+           <input type="text" class="form-control" formControlName="polizaNumber" id="polizaNum" aria-describedby="polizaNum" placeholder="No de Poliza" />
+           <small id="inputState" *ngIf="!polizaservice.orderForm.controls['polizaNumber'].valid" class="text-danger">*Este campo es requerido.</small>
+            </div>
+          </div> -->
+
+          <div class="col-3">
+            <div class="form-group">
+              <!-- <label for="exampleInputEmail1"></label> -->
+              <input
+                type="date"
+                class="form-control"
+                formControlName="date"
+                id="date"
+                [attr.readonly]= "true"
+                aria-describedby="date"
+                placeholder="Fecha"
+              />
+              <small
+                id="inputState"
+                *ngIf="!polizaservice.orderForm.controls['date'].valid"
+                class="text-danger"
+                >*Este campo es requerido.</small
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-11 pt-6">
+
+          <div class="form-group">
+
+            <p class="text-primary lead">Concepto de la Poliza</p>
+            <!-- <input type="text" class="form-control" formControlName="concept" id="concept" aria-describedby="number" placeholder="Concepto"> -->
+            <textarea class="form-control" aria-label="With textarea" formControlName="concept"></textarea>
+            <small id="concept" class="form-text text-muted">Puede agregar mas informacion si requiere.</small>
+          </div>
+        </div>
+<hr>
+
+<!-- LLENADO DE LOS ITEMS POLIZA -->
+
+<div class="row">
+
+  <div class="col-3 text-primary pt-3"><p class="lead display-5">Subcuentas</p></div>
+  <div class="col-3 text-primary pt-3"><p class="lead display-5">Conceptos</p></div>
+  <div class="col-2 text-primary pt-3"><p class="lead display-5">Debito</p></div>
+  <div class="col-2 text-primary pt-3"><p class="lead display-5">Credito</p></div>
+
+</div>
+
+        <div formArrayName="itemsPolizas"
+          *ngFor="let item of polizaservice.materials.controls; let i = index">
+          <div [formGroupName]="i">
+
+      <div class="row">
+        <div class="col-3 pt-3">
+            <!-- <label for="subAccount">Selecccione la Cuenta Bancaria</label> -->
+            <select
+            class="form-control form-control-sm"
+            id="subAccount"
+            formControlName="subAccountNumber"
+            placeholder="Seleccionar Producto"
+            (change)="this.polizaservice.addConcept($event, i)"
+            name="subAccount">
+            <option>Default select</option>
+            <option *ngFor="let acc of this.polizaservice.subAccounts" [value]="acc.subAccountNumber">
+              {{acc.nameSubAccount + ": "+ acc.subAccountNumber}}</option>
+          </select>
+
+        </div>
+
+        <!-- <div class="col-3">
+          <input type="text" class="form-control" formControlName="subAccountName" placeholder="Concepto" />
+      </div> -->
+
+    <!-- <div class="col-3">
+        <input type="text" class="form-control" formControlName="accountNumber" placeholder="Concepto" />
+    </div> -->
+
+    <!-- <div class="col-3">
+      <input type="text" class="form-control" formControlName="accountName" placeholder="Concepto" />
+  </div> -->
+
+
+        <div class="col-3 pt-3">
+            <input type="text" class="form-control form-control-sm" formControlName="concept" placeholder="Concepto" />
+        </div>
+        <div class="col-2 pt-3">
+            <input type="number" class="form-control form-control-sm"  (keyup)="this.polizaservice.enterValuesDebit(i)" formControlName="debit" placeholder="Debito" />
+        </div>
+        <div class="col-2 pt-3">
+            <input type="number" class="form-control form-control-sm" (keyup)="this.polizaservice.enterValuesCredit(i)" formControlName="credit" placeholder="Credito" />
+        </div>
+        <div class="col-1 pt-3">
+            <button type="button" (click)="this.polizaservice.addItem()" class="btn btn-outline-primary btn-sm">
+                  Agregar
+                </button>
+        </div>
+        <div class="col-1 pt-3">
+            <button type="button" (click)="this.polizaservice.removeItem(i)" class="btn btn-outline-dark btn-sm">
+                  Borrar
+                </button>
+        </div>
+    </div>
+
+    <!-- <input formControlName="concept" placeholder="Concept">
+      <input formControlName="debit" placeholder="Debit">
+      <input formControlName="credit" placeholder="Credit"> -->
+</div>
+
+<!-- Chosen name: {{ orderForm.controls.items.controls[i].controls.name.value }} -->
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-3 pt-3">
+    diferencia en sumas:
+  </div>
+  <div class="col-md-3 pt-3 text-danger">{{this.polizaservice.difSum|currency}}</div>
+  <div class="col-md-2 pt-3 form-control-sm">{{this.polizaservice.sumDebit|currency}}</div>
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-2 pt-3 form-control-sm">{{this.polizaservice.sumCredit|currency}}</div>
+  <div class="col-md-1">
+  </div>
+</div>
+
+<div class="pt-3">
+  <button class="btn btn-primary" type="submit">Enviar</button>
+</div>
+</form>
+</div>
+</div>
+</div>

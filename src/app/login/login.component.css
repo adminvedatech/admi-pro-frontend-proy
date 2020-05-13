@@ -1,0 +1,17 @@
+
+.jumbotron-user {
+    /* margin-top: 50px; */
+    background-color: rgb(243, 243, 243);
+    height: 400px;
+    width: 400px;
+    padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+
+}
+
+ .top-espacio {
+
+    margin-top: 100px;
+}

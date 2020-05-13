@@ -1,0 +1,47 @@
+<div class="container">
+
+  <hr>
+  <h2>
+    Lista de Sub-Cuentas
+  </h2>
+  <hr>
+</div>
+
+  <div class="container">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th class="small-text" scope="col">Cuenta</th>
+          <th scope="col">Banco</th>
+          <th scope="col">Subcuenta</th>
+          <th scope="col">Balance Inicial</th>
+          <th scope="col">Balance Actual</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of banks">
+          <th class="small-text">{{account.id}}</th>
+          <td class="small-text">{{account.bankAccount}}</td>
+          <td class="small-text">{{account.bankName}}</td>
+          <td class="small-text">{{account.subAccount | mask: "000-00-00"}}</td>
+          <td class="small-text">{{account.initialBalance | currency}}</td>
+          <td class="small-text">{{account.balance | currency}}</td>
+          <!-- <td class="small-text">{{account.status}}</td> -->
+          <td><button type="button" [routerLink]="['/bank/edit', account.id]" class="btn btn-primary btn-sm">Editar</button>
+          </td>
+
+
+          <td>
+            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+              <!-- <input type="checkbox" value="{{invoice.payment}}" [checked] = "invoice.payment" (change)="onChange(invoice.id, $event.target.checked)" class="custom-control-input" id="{{invoice.id}}"> -->
+              <!-- <label class="custom-control-label" for="{{invoice.id}}"></label> -->
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
