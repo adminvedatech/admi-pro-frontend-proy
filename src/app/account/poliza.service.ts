@@ -238,6 +238,8 @@ export class PolizaService {
      }
 
      this.difSum = this.sumCredit-this.sumDebit;
+     console.log('dif Sum ', this.difSum);
+
 
     }
 
@@ -261,8 +263,12 @@ export class PolizaService {
   verifySumPolizas() {
     this.arrayPolizaSumValues();
     if(!this.compareNum(this.sumDebit, this.sumCredit)){
+      console.log('FALSE');
+
         return false;
      }else{
+       console.log('TRUE');
+
        return true;
      }
    }
@@ -275,7 +281,7 @@ export class PolizaService {
     console.log('COMPARE NUMBER ', this.compareNumber);
 
 
-    let num: number = this.bankMovementRegister.depositos;
+  //  let num: number = this.bankMovementRegister.depositos;
     if(num1!=num2){
       Swal.fire({
         icon: "error",
@@ -295,6 +301,36 @@ export class PolizaService {
         return true;
       }
     }
+
+  }
+
+  sendData(){
+    let data2 = this.orderForm.value;
+    this.bankMovementRegister.poliza = data2;
+    let data3 = JSON.stringify(this.bankMovementRegister);
+
+    // Se manda al Servidor
+  this.accountservice.createPoliza(data3).subscribe(res => {
+    console.log('RES ', res);
+
+    this.clearPoliza();
+    Swal.fire({
+      icon: "success",
+      text: "Se agrego la Poliza a la Base de Datos con exito",
+      title: "Agregar Poliza"
+    });
+
+    // switch(this.url){
+    //   case 'br':  this.router.navigateByUrl('/bank/bank-movement-register');
+    //   break;
+    //   case 'csv': this.router.navigateByUrl('/bank/add-file-bankmovement');
+    //   console.log('CSV BANK');
+    //   break;
+     // default: this.getBankMovementCsvById(this.id);
+   // }
+
+  });
+
 
   }
 

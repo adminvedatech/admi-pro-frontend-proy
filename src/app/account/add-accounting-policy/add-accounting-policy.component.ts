@@ -14,6 +14,8 @@ import { map, filter, pairwise } from 'rxjs/operators';
 import { BankMovementRegisterComponent } from 'src/app/bank/bank-movement-register/bank-movement-register.component';
 import { PolizaService } from '../poliza.service';
 import { stringify } from 'querystring';
+import { InvoiceService } from 'src/app/invoice/invoice.service';
+import { PolizaInvoiceService } from '../poliza-invoice.service';
 
 
 @Component({
@@ -80,6 +82,8 @@ export class AddAccountingPolicyComponent implements OnInit {
               private formBuilder: FormBuilder,
               private accountservice: AccountService,
               private _bankservice: BankService,
+              private _invoicesupplier: InvoiceService,
+              private _polizainvoiceservice: PolizaInvoiceService,
               private route: ActivatedRoute,
               private router: Router
               ) {
@@ -171,8 +175,9 @@ export class AddAccountingPolicyComponent implements OnInit {
       break;
       case 'csv': this.polizaservice.getBankMovementCsvById(this.id);
       this.polizaservice.addItem();
-      console.log('CSV BANK');
       break;
+      case 'is': this._polizainvoiceservice.getSupplierInvoiceById(this.id);
+        break;
      // default: this.getBankMovementCsvById(this.id);
     }
     this.polizaservice.getAllSubAccount();
@@ -205,6 +210,14 @@ export class AddAccountingPolicyComponent implements OnInit {
     })
   }
 
+  getInvoiceSupplierById(id){
+
+    this._invoicesupplier.getInvoiceSupplierById(id).subscribe(res=> {
+      console.log(res);
+
+    })
+  }
+
   onSubmit() {
 
     if(this.polizaservice.verifySumPolizas()){
@@ -218,33 +231,47 @@ export class AddAccountingPolicyComponent implements OnInit {
   createPoliza(){
 
     // let data = JSON.stringify(this.polizaservice.bankMovementRegister);
-  this.bankMovement = this.polizaservice.bankMovementRegister;
-  let data2 = this.polizaservice.orderForm.value;
-  this.bankMovement.poliza = data2;
-  let data3 = JSON.stringify(this.bankMovement);
+
+    // this.bankMovement = this.polizaservice.bankMovementRegister;
+  // let data2 = this.polizaservice.orderForm.value;
+  // this.bankMovement.poliza = data2;
+  // let data3 = JSON.stringify(this.bankMovement);
 
 
 // Se manda al Servidor
-  this.accountservice.createPoliza(data3).subscribe(res => {
-    console.log('RES ', res);
+  // this.accountservice.createPoliza(data3).subscribe(res => {
+  //   console.log('RES ', res);
 
-    this.polizaservice.clearPoliza();
-    Swal.fire({
-      icon: "success",
-      text: "Se agrego la Poliza a la Base de Datos con exito",
-      title: "Agregar Poliza"
-    });
+    // this.polizaservice.clearPoliza();
+    // Swal.fire({
+    //   icon: "success",
+    //   text: "Se agrego la Poliza a la Base de Datos con exito",
+    //   title: "Agregar Poliza"
+    // });
 
+    console.log('URL', this.url);
     switch(this.url){
-      case 'br':  this.router.navigateByUrl('/bank/bank-movement-register');
+
+      case 'br':
+      console.log('br');
+      this.polizaservice.sendData();
+      this.router.navigateByUrl('/bank/bank-movement-register');
       break;
-      case 'csv': this.router.navigateByUrl('/bank/add-file-bankmovement');
+      case 'csv':
+      this.polizaservice.sendData();
+      this.router.navigateByUrl('/bank/add-file-bankmovement');
       console.log('CSV BANK');
       break;
+      case 'is':
+        this._polizainvoiceservice.sendData();
+        this.router.navigateByUrl('/invoice/invoice-supplier-list');
+        console.log('INVOICE SUPPLIER');
+        break;
      // default: this.getBankMovementCsvById(this.id);
     }
 
-  });
+
+  // });
 
   }
 

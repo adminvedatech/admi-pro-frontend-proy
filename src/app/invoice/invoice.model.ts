@@ -1,13 +1,12 @@
 import { CustomerComponent } from '../customer/customer.component';
 import { Supplier } from '../supplier/supplier.model';
+import { Poliza } from '../account/account.model';
 
 export class Invoice {
   id: number;
   fecha: Date;
   fechaPago: Date;
   concept: string;
-  customer: any;
-  supplier: Supplier;
   condicionesPago: string;
   nombreArchivo: string;
   subTotal: number;
@@ -16,5 +15,9 @@ export class Invoice {
   pago: number;
   folio: string;
   payment: boolean;
+  poliza: Poliza;
+  supplier: Supplier;
+  customer: any;
+
 
 }

@@ -13,7 +13,9 @@ export class AccountService {
 
   numPoliza="api/poliza/get-poliza-by-number";
   invoice="api/supplier/get-supplier-invoice";
+  subAccountNumber="api/contabilidad/get-subaccount-by-number";
 
+  subAccount:any;
   private httpHeaders = new HttpHeaders();
 
   private _refreshNeeded$ = new Subject<void>();
@@ -58,6 +60,23 @@ export class AccountService {
         );
 
       }
+
+
+      createInvoicePoliza(obj: any): Observable<any> {
+        this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+        const req = new HttpRequest('POST', 'http://localhost:8080/api/poliza/add-invoice-poliza', obj,  {
+          headers: this.httpHeaders,
+          reportProgress: true,
+          responseType: 'text'
+        })
+        return this.http.request(req).pipe(
+          // tap(() =>  {
+          //   this._refreshNeeded$.next();
+          // })
+        );
+
+      }
+
 
 
       updatePoliza(object: Poliza): Observable<Poliza> {
@@ -138,5 +157,56 @@ export class AccountService {
       }
 
 
+      getSubAccountBySubAccountNumber(num: any): Observable<any> {
+        console.log('GET ALL ACCOUNTS TYPE');
+          this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+          return this.http.get<any>(`${URL_SERVICIOS}/${this.subAccountNumber}/${num}`,  {headers: this.httpHeaders})
 
-}
+
+        }
+
+
+       getAsyncData(num:any) {
+          this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+           const promise = this.http.get(`${URL_SERVICIOS}/${this.subAccountNumber}/${num}`,  {headers: this.httpHeaders}).toPromise();
+          console.log('PRIMISE ', promise);
+          promise.then((data)=>{
+            console.log("Promise resolved with: " + JSON.stringify(data));
+             this.subAccount = data
+          }).catch((error)=>{
+            console.log("Promise rejected with " + JSON.stringify(error));
+          });
+          return this.subAccount;
+      }
+
+        getPosts(num:any) {
+          const promise = new Promise((resolve, reject) => {
+         //   const apiURL = this.api;
+         this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+            this.http
+              .get<any>(`${URL_SERVICIOS}/${this.subAccountNumber}/${num}`,  {headers: this.httpHeaders})
+              .toPromise()
+              .then((res: any) => {
+                // Success
+                 this.subAccount = res.map((res: any) => {
+                   this.subAccount = res;
+                //   return new Post(
+                //     res.userId,
+                //     res.id,
+                //     res.title,
+                //     res.body
+                //   );
+                 });
+                resolve();
+              },
+                err => {
+                  // Error
+                  reject(err);
+                }
+              );
+          });
+          return promise;
+        }
+      }
+
+

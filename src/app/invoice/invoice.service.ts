@@ -3,11 +3,15 @@ import { HttpHeaders, HttpClient, HttpRequest, HttpEvent } from '@angular/common
 import { Subject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Invoice } from './invoice.model';
+import { URL_SERVICIOS } from '../auth/url/url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceService {
+
+  invsuppbyid ="api/supplier/get-supplier-invoice-by-id";
+
 
   httpHeaders: HttpHeaders;
   private _refreshNeeded$ = new Subject<void>();
@@ -145,6 +149,16 @@ export class InvoiceService {
 
       })
 )}
+
+
+getInvoiceSupplierById(id: any): Observable<Invoice> {
+  console.log('GET ALL ACCOUNTS TYPE');
+   this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<Invoice>(`${URL_SERVICIOS}/${this.invsuppbyid}/${id}`,  {headers: this.httpHeaders})
+
+
+  }
+
 
 
 }

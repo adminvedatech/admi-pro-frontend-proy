@@ -44,8 +44,7 @@
         <td>{{invoice.total | currency}}</td>
         <td>{{invoice.payment}}</td>
         <td>
-          <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/account/supplier', invoice.id]">
-            poliza</button>
+          <a [routerLink]="['/account/add-accounting-policy', invoice.id, 'is']">{{invoice.id}}</a>
         </td>
       </tr>
 
